@@ -9,6 +9,16 @@ public class RetailItem {
    private int unit;
    private double price; 
    private int checkedCount ;  
+   private double totalByItem;        
+
+    public double getTotalByItem() {
+        return totalByItem;
+    }
+
+    public void setTotalByItem(double TotalByItem) {
+        this.totalByItem = TotalByItem;
+    }
+   
     public int getCheckedCount() {
         return checkedCount;
     }

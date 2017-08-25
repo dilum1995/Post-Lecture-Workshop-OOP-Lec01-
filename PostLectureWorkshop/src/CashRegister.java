@@ -12,15 +12,14 @@ public class CashRegister {
     private static ArrayList<RetailItem> purchaseList = new ArrayList<RetailItem>();
     private static Scanner sc = new Scanner(System.in);
     private static String selecteditemcode;
-    private static String userSelection;
+    private static String userSelection = null ;
+    private static double finalTotal = 0.000;
     
     public static void main(String[] args)
-    {           
-       displayItems();
-       check_out();
-       
-//       clear();
-        
+    {   
+        FillRetial_Items();        
+        displayItems();
+        check_out();    
     }
    
    //method which fills the details of a retial items
@@ -33,15 +32,16 @@ public class CashRegister {
         
         lstItems.add(new RetailItem("#R2001","ITEM4", 10, 400.50));
         lstItems.add(new RetailItem("#R2002","ITEM5", 15, 200.50));
-        lstItems.add(new RetailItem("#R2003","ITEM6", 20, 600.50));
-        
+        lstItems.add(new RetailItem("#R2003","ITEM6", 20, 600.50));      
         
     }
     
    //menu which display the stock availability
     private static void displayItems() {
-        FillRetial_Items();
         
+//        if (lstItems.size() < 1) {
+//            FillRetial_Items();
+//        }  
         System.out.println("\n-------------------------------------- Retail Shop V1.0 --------------------------------------------\n");
         
         System.out.println(String.format("%-65s%-60s%n", "\t\t Row-01", "Row -02"));
@@ -66,8 +66,10 @@ public class CashRegister {
             if(lstItems.get(i).getItemCode().equals(selecteditemcode))
             {
                 purchase_item(lstItems.get(i));
+                break;
             }
         }        
+        System.out.println("");
         System.out.print("Do you want to buy more Y/N:");
         userSelection = sc.nextLine().toString();      
 
@@ -76,49 +78,115 @@ public class CashRegister {
     }   
     private static void purchase_item(RetailItem obj)
     {
+        boolean isExists = false;
+        int existingIndex = -1;
         if(purchaseList.size() > 0)
         {
             for (int i = 0; i < purchaseList.size(); i++) {
-            if(purchaseList.get(i).equals(obj))
+                
+                if(obj.getItemCode().equals(purchaseList.get(i).getItemCode()))
+                {
+                    isExists = true;
+                    existingIndex = i;
+                    break; 
+                }                           
+            }            
+            if(isExists)
             {
-                purchaseList.get(i).setCheckedCount(purchaseList.get(i).getCheckedCount() + 1);
+                if(existingIndex != -1)
+                {
+                    purchaseList.get(existingIndex).setCheckedCount(purchaseList.get(existingIndex).getCheckedCount() + 1);
+                }                
             }
             else
             {
+                obj.setCheckedCount(1); 
                 purchaseList.add(obj);
             }
-            } 
         }        
         else
         {
             obj.setCheckedCount(1);            
             purchaseList.add(obj);
+            
         }
         
     }
     
     private static void check_out()
-    {    
+    {  
         System.out.println("Your purhase history\n");
-        System.out.println("Item count\t"+"Item-Code\t"+"Item-Name\t"+"Price\t\n");
+        System.out.println("Item-count\t"+"Item-Code\t"+"Item-Name\t"+"Unit-price\t"+"Total Price By Item\t\n");
             for (int i = 0; i < purchaseList.size(); i++) {
-                
                
-                System.out.print(purchaseList.get(i).getCheckedCount()+"\t\t" + purchaseList.get(i).getItemCode()+"\t\t" +purchaseList.get(i).getDescription()+"\t\t" +purchaseList.get(i).getPrice()+"\t\n");
-                //System.out.println("");
-                //System.out.println(purchaseList.get(i).getDescription() + purchaseList.get(i).getPrice() + "  " + "Count :" + purchaseList.get(i).getCheckedCount());
-                
-            }
-    }
-    
-    private static void get_total()
-    {
+                purchaseList.get(i).setTotalByItem(purchaseList.get(i).getCheckedCount() *purchaseList.get(i).getPrice());
+                System.out.print(purchaseList.get(i).getCheckedCount()+"\t\t" + purchaseList.get(i).getItemCode()+"\t\t" +purchaseList.get(i).getDescription()+"\t\t" +purchaseList.get(i).getPrice()+"\t\t"+ purchaseList.get(i).getTotalByItem()+"\t\n");
+            }           
         
+        System.out.println("\nSelect your option");
+        System.out.println("A-Purchase more items"+"\t\t\t"+"B-Get total price");
+        userSelection = sc.next().toUpperCase();
+        
+        switch(userSelection){
+        
+            case "A": 
+                displayItems();
+                break;
+                
+            case "B":
+                get_total();
+                break;
+                
+            default: 
+                System.err.println("Please enter a valid option");
+                break;
+        }          
+    } 
+    
+    //method which calculates the total
+    private static void get_total()
+    {   
+        System.out.println("\n");
+        for (int i = 0; i < purchaseList.size(); i++) {
+            finalTotal += purchaseList.get(i).getTotalByItem();
+        }
+        System.out.println("Total Price :" + finalTotal);
+        System.out.println("\n");
+        System.out.println("\nSelect your option");
+        System.out.println("A-Purchase more items"+"\n"+"B-Clear purchase history"+"\n"+"C-Terminate program");
+        userSelection = sc.next().toUpperCase();
+        
+        switch(userSelection){
+        
+            case "A": 
+                displayItems();
+                break;
+                
+            case "B":
+                clear();
+                break;
+                
+            case "C":
+                terminate();
+                break;
+                
+            default: 
+                System.err.println("Please enter a valid option");
+                break;
+        }  
     }
     
     //method which will clear the user's purchase history
     private static void clear()
     {
+        System.out.println("Purchase history has been cleared.....");
         purchaseList.clear();
+        displayItems();
+    }
+    
+    //using this method user can terminate the program
+    private static void terminate()
+    {
+        System.exit(0);
     }
 }

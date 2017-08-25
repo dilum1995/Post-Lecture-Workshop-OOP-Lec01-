@@ -1,40 +1,68 @@
 
 import java.util.ArrayList;
 
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 
-/**
- *
- * @author dilumdesilva
- */
- class RetailItem {
-   String description;
-   String unit;
-   double price;   
+public class RetailItem {
+    
+   private String ItemCode;
+   private String description;
+   private int unit;
+   private double price; 
+   private int checkedCount ;  
+    public int getCheckedCount() {
+        return checkedCount;
+    }
+
+    public void setCheckedCount(int checkedCount) {
+        this.checkedCount = checkedCount;
+    }
    
+   //the default constructor
    RetailItem(){}
    
-   RetailItem(String description,String unit,double price)
+   RetailItem(String ItemCode,String description,int unit,double price)
    {
+       this.ItemCode= ItemCode;
        this.description = description;       
        this.unit = unit;
        this.price = price;
  
    } 
-   public ArrayList<RetailItem> ShowRetial_Items()
-    {
-        ArrayList<RetailItem> lstSavedItems = new ArrayList<RetailItem>();
-        lstSavedItems.add(new RetailItem("Book", "P", 45));
-        lstSavedItems.add(new RetailItem("Book", "P", 45));
-        lstSavedItems.add(new RetailItem("Book", "P", 45));
-        lstSavedItems.add(new RetailItem("Book", "P", 45));
-        lstSavedItems.add(new RetailItem("Book", "P", 45));
-        lstSavedItems.add(new RetailItem("Book", "P", 45));
-        lstSavedItems.add(new RetailItem("Book", "P", 45));
-        return  lstSavedItems;
+
+    public String getItemCode() {
+        return ItemCode;
     }
+
+    public void setItemCode(String ItemCode) {
+        this.ItemCode = ItemCode;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
+    public int getUnit() {
+        return unit;
+    }
+
+    public void setUnit(int unit) {
+        this.unit = unit;
+    }
+
+    public double getPrice() {
+        return price;
+    }
+
+    public void setPrice(double price) {
+        this.price = price;
+    }
+   
+   
+   
+   
+   
 }

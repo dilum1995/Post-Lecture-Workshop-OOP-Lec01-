@@ -19,7 +19,7 @@ public class CashRegister {
        displayItems();
        check_out();
        
-       clear();
+//       clear();
         
     }
    
@@ -59,7 +59,7 @@ public class CashRegister {
         }
         
         do {
-            System.out.println("Type the Item Code :");
+            System.out.print("Type the Item Code :");
             selecteditemcode = sc.nextLine().toString();          
             
         for (int i = 0; i < lstItems.size(); i++) {
@@ -68,7 +68,7 @@ public class CashRegister {
                 purchase_item(lstItems.get(i));
             }
         }        
-        System.out.println("Do you want to buy more Y/N:");
+        System.out.print("Do you want to buy more Y/N:");
         userSelection = sc.nextLine().toString();      
 
         } while (userSelection.equalsIgnoreCase("Y"));            
@@ -98,9 +98,15 @@ public class CashRegister {
     }
     
     private static void check_out()
-    {        
+    {    
+        System.out.println("Your purhase history\n");
+        System.out.println("Item count\t"+"Item-Code\t"+"Item-Name\t"+"Price\t\n");
             for (int i = 0; i < purchaseList.size(); i++) {
-                System.out.println(purchaseList.get(i).getDescription() + purchaseList.get(i).getPrice() + "  " + "Count :" + purchaseList.get(i).getCheckedCount());
+                
+               
+                System.out.print(purchaseList.get(i).getCheckedCount()+"\t\t" + purchaseList.get(i).getItemCode()+"\t\t" +purchaseList.get(i).getDescription()+"\t\t" +purchaseList.get(i).getPrice()+"\t\n");
+                //System.out.println("");
+                //System.out.println(purchaseList.get(i).getDescription() + purchaseList.get(i).getPrice() + "  " + "Count :" + purchaseList.get(i).getCheckedCount());
                 
             }
     }
